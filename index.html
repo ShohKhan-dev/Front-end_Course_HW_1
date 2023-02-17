@@ -40,6 +40,9 @@
                         <li class="nav-item">
                             <a class="nav-link " href="#project-area">projects</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="#comic-area" style="color: red;">Comic</a>
+                        </li>
                        
                         <li class="nav-item">
                             <a class="nav-link" href="https://t.me/SH_Hamrakulov_bot">contact</a>
@@ -92,10 +95,12 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-lg-6 col-md-12">
+                          
                             <div class="about-image">
                                 <img src="static/img/about-us.png" alt="About us" class="img-fluid" width="500" height="500">
-                                
                             </div>
+                            
+
                         </div>
                         <div class="col-lg-6 col-md-12 about-title">
                             <h2 class=" about-me">
@@ -349,9 +354,21 @@
                             </div>
                         </div>
             
-                        
-            
                     </div>
+                </div>
+            </section>
+        </a>
+
+        <a name="comic-area">
+            <section class="comic-area">
+                <div id="comic-container">
+                    <h1 class="text-center"><strong>Enjoy Some Random Comics:</strong></h1><button class="btn button primary-button" onclick="fetchComics()"><i class="fa fa-refresh"></i></button>
+                    <div id="title"></div>
+                    <div id="date"></div>
+                    <img id="comic" />
+                    
+                    
+                    <div id="alt"></div>
                 </div>
             </section>
         </a>
@@ -371,5 +388,55 @@
     <script src="static/js/bootstrap.min.js"></script>
     
     <script src="static/js/main.js"></script>
+
+    <script>
+        // Fetch id identifier from the API usign Email
+        const email = "s.khamrakulov@innopolis.university";
+        const urlParams = new URLSearchParams({ email });
+        const apiUrl = `https://fwd.innopolis.app/api/hw2?${urlParams}`;
+
+        function fetchComics(){
+            fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+            const comicId = data;
+
+            // Fetch comic data from XKCD API by id
+            const xkcdUrl = `https://getxkcd.vercel.app/api/comic?num=${comicId}`;
+            fetch(xkcdUrl)
+                .then(response => response.json())
+                .then(data => {
+                const comic = data.img;
+                const title = data.title;
+                const alt = data.alt;
+                const date = new Date(data.year, data.month - 1, data.day);
+                
+                const comicImg = document.getElementById("comic");
+                const altDiv = document.getElementById("alt");
+                const titleDiv = document.getElementById("title");
+                const dateDiv = document.getElementById("date");
+
+                comicImg.src = comic;
+                comicImg.alt = alt;
+                titleDiv.textContent = title;
+                dateDiv.textContent = `Published on: ${date.toLocaleDateString()}`;
+                altDiv.textContent = `Note: ${alt}`;
+                })
+                .catch(error => {
+                console.error("Error fetching comic data:", error);
+                });
+            })
+            .catch(error => {
+            console.error("Error fetching comic identifier:", error);
+            });
+
+        }
+
+        $(document).ready(function () {
+            fetchComics();
+        });
+        
+        
+    </script>
 </body>
 </html>
