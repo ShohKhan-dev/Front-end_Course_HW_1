@@ -1,0 +1,24 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "description": "Just a test package",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup --config rollup.config.js",
+    "watch": "rollup --config rollup.config.js --watch"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-terser": "^0.4.0",
+    "rollup": "^3.17.2"
+  },
+  "dependencies": {
+    "@rollup/plugin-typescript": "^11.0.0",
+    "socket.io-client": "^4.6.1",
+    "tslib": "^2.5.0"
+  }
+}
